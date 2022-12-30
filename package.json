@@ -1,6 +1,7 @@
 {
   "name": "@danprince/serve",
   "version": "0.0.1",
+  "license": "Unlicense",
   "description": "A tiny live-reloading web server",
   "files": [
     "dist"
@@ -9,7 +10,9 @@
   "scripts": {
     "build": "tsc",
     "watch": "tsc --watch",
-    "test": "vitest"
+    "test": "vitest",
+    "clean": "rm -rf dist",
+    "prepublishOnly": "vitest run && yarn clean && yarn build"
   },
   "dependencies": {
     "chokidar": "^3.5.3",
