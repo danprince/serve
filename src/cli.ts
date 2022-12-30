@@ -31,7 +31,7 @@ try {
 }
 
 server.httpServer.on("listening", () => {
-  console.log(`${LISTENING_ICON}server listening on ${blue(port)}`);
+  console.log(`${LISTENING_ICON}server listening on ${blue(`http://localhost:${port}`)}`);
 });
 
 server.httpServer.once("error", (err: any) => {
