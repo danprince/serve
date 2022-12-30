@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 import { join, relative } from "node:path";
 import { createLiveReloadServer, LiveReloadServer } from "./server";
 import { blue, green, red } from "picocolors";
