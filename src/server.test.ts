@@ -7,7 +7,7 @@ import { request } from "undici";
 import EventSource from "eventsource";
 import { createLiveReloadServer } from "./server";
 
-const tmpFixturesDir = join(__dirname, "../fixtures/tmp");
+const tmpFixturesDir = join(__dirname, "../tests/fixtures/tmp");
 
 function randomPort() {
   return 15000 + Math.floor(Math.random() * 5000);
@@ -73,7 +73,7 @@ test("reloads during fs changes", async () => {
 
 test("serves files with correct mime types", async () => {
   let port = randomPort();
-  let server = createLiveReloadServer({ dir: "fixtures/mime-types", port });
+  let server = createLiveReloadServer({ dir: "tests/fixtures/mime-types", port });
 
   let cases: Record<string, string> = {
     "file.css": "text/css",
@@ -92,9 +92,25 @@ test("serves files with correct mime types", async () => {
 
 test("injects livereload script into html files", async () => {
   let port = randomPort();
-  let server = createLiveReloadServer({ dir: "fixtures/basic", port });
-  let { body } = await request(`http://localhost:${port}/`);
-  let html = await body.text();
-  expect(html).toMatch(/new EventSource/);
+  let server = createLiveReloadServer({ dir: "tests/fixtures/script-injection", port });
+
+  {
+    let { body } = await request(`http://localhost:${port}/simple.html`);
+    let html = await body.text();
+    expect(html).toMatch(/new EventSource/);
+  }
+
+  {
+    let { body } = await request(`http://localhost:${port}/no-body.html`);
+    let html = await body.text();
+    expect(html).toMatch(/new EventSource/);
+  }
+
+  {
+    let { body } = await request(`http://localhost:${port}/no-head.html`);
+    let html = await body.text();
+    expect(html).toMatch(/new EventSource/);
+  }
+
   server.close();
 });
