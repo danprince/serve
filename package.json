@@ -1,5 +1,6 @@
 {
   "name": "@danprince/serve",
+  "version": "0.0.0",
   "description": "A tiny live-reloading web server",
   "files": ["dist"],
   "bin": "dist/cli.js",
