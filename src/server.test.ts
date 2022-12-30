@@ -114,3 +114,20 @@ test("injects livereload script into html files", async () => {
 
   server.close();
 });
+
+test("serves index.html if path is directory", async () => {
+  let port = randomPort();
+  let server = createLiveReloadServer({ dir: "tests/fixtures/with-index-html", port });
+  let { body } = await request(`http://localhost:${port}/`);
+  let html = await body.text();
+  expect(html).toMatch(/<html>/);
+  server.close();
+});
+
+test("serves 404 if path is directory with no index.html", async () => {
+  let port = randomPort();
+  let server = createLiveReloadServer({ dir: "tests/fixtures/empty-dir", port });
+  let { statusCode } = await request(`http://localhost:${port}/`);
+  expect(statusCode).toBe(404);
+  server.close();
+});

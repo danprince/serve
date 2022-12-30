@@ -54,6 +54,24 @@ let mimeTypesByExtension: Record<string, string> = {
 };
 
 /**
+ * Handle errors resulting from an fs.stat call.
+ */
+function handleStatError(err: any, res: Response) {
+  if (err.code === "ENOENT") {
+    res.statusCode = 404;
+    res.statusMessage = "Not found";
+    res.end();
+    return;
+  } else {
+    res.statusCode = 500;
+    res.statusMessage = "Internal server error";
+    res.end();
+    console.error(err);
+    return;
+  }
+}
+
+/**
  * Serves a static file, given a request URL.
  * @param dir The directory to try serving from.
  */
@@ -68,22 +86,17 @@ async function serveStaticFile(
   try {
     stats = await stat(file);
   } catch (err: any) {
-    if (err.code === "ENOENT") {
-      res.statusCode = 404;
-      res.statusMessage = "Not found";
-      res.end();
-      return;
-    } else {
-      res.statusCode = 500;
-      res.statusMessage = "Internal server error";
-      res.end();
-      console.error(err);
-      return;
-    }
+    return handleStatError(err, res);
   }
 
   if (stats.isDirectory()) {
     file = join(dir, "index.html");
+
+    try {
+      stats = await stat(file);
+    } catch (err: any) {
+      return handleStatError(err, res);
+    }
   }
 
   let extension = extname(file);
