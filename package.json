@@ -1,8 +1,10 @@
 {
   "name": "@danprince/serve",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "A tiny live-reloading web server",
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "bin": "dist/cli.js",
   "scripts": {
     "build": "tsc",
