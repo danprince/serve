@@ -1,0 +1,22 @@
+{
+  "name": "@danprince/serve",
+  "description": "A tiny live-reloading web server",
+  "files": ["dist"],
+  "bin": "dist/cli.js",
+  "scripts": {
+    "build": "tsc",
+    "watch": "tsc --watch",
+    "test": "vitest"
+  },
+  "dependencies": {
+    "chokidar": "^3.5.3",
+    "picocolors": "^1.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^18.11.18",
+    "eventsource": "^2.0.2",
+    "typescript": "^4.9.4",
+    "undici": "^5.14.0",
+    "vitest": "^0.26.2"
+  }
+}
