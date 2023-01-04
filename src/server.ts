@@ -90,7 +90,7 @@ async function serveStaticFile(
   }
 
   if (stats.isDirectory()) {
-    file = join(dir, "index.html");
+    file = join(file, "index.html");
 
     try {
       stats = await stat(file);

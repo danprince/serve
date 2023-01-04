@@ -131,7 +131,16 @@ test("serves index.html if path is directory", async () => {
   let server = createLiveReloadServer({ dir: "tests/fixtures/with-index-html", port });
   let { body } = await request(`http://localhost:${port}/`);
   let html = await body.text();
-  expect(html).toMatch(/<html>/);
+  expect(html).toMatch(/toplevel/);
+  server.close();
+});
+
+test("serves nested index.html if path is directory", async () => {
+  let port = randomPort();
+  let server = createLiveReloadServer({ dir: "tests/fixtures/with-index-html", port });
+  let { body } = await request(`http://localhost:${port}/nested/`);
+  let html = await body.text();
+  expect(html).toMatch(/nested/);
   server.close();
 });
 
