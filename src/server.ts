@@ -108,12 +108,10 @@ async function serveStaticFile(
   if (extension === ".html") {
     let contents = await readFileAndInjectReloadingScripts(file);
     res.write(contents);
+    res.end();
   } else {
     createReadStream(file).pipe(res);
   }
-
-  res.statusCode = 200;
-  res.end();
 }
 
 /**

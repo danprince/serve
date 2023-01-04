@@ -90,6 +90,17 @@ test("serves files with correct mime types", async () => {
   server.close();
 });
 
+test("serves files correctly", async () => {
+  let port = randomPort();
+  let server = createLiveReloadServer({ dir: "tests/fixtures/mime-types", port });
+
+  let { body, statusCode } = await request(`http://localhost:${port}/file.css`);
+  expect(statusCode).toBe(200);
+  expect(await body.text()).toBe("body { color: red; }\n");
+
+  server.close();
+});
+
 test("injects livereload script into html files", async () => {
   let port = randomPort();
   let server = createLiveReloadServer({ dir: "tests/fixtures/script-injection", port });
