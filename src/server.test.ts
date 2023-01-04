@@ -142,3 +142,13 @@ test("serves 404 if path is directory with no index.html", async () => {
   expect(statusCode).toBe(404);
   server.close();
 });
+
+test("serves 404s for files that don't exist", async () => {
+  let port = randomPort();
+  let server = createLiveReloadServer({ dir: "tests/fixtures/empty-dir", port });
+
+  let { statusCode } = await request(`http://localhost:${port}/hello.html`);
+  expect(statusCode).toBe(404);
+
+  server.close();
+});
