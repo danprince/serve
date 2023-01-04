@@ -120,7 +120,7 @@ async function serveStaticFile(
  */
 async function readFileAndInjectReloadingScripts(file: string): Promise<string> {
   let contents = await readFile(file, "utf8");
-  let script = `<script defer>new EventSource("livereload").onmessage = () => location.reload();</script>`;
+  let script = `<script defer>new EventSource("/livereload").onmessage = () => location.reload();</script>`;
 
   return contents.replace(
     /(<\/body>|<\/head>|<script>)/,
